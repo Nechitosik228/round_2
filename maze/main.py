@@ -1,6 +1,8 @@
 import random
 import numpy as np
 
+data={}
+
 
 def create_matrix(columns,rows):
     maze=[]
@@ -12,7 +14,7 @@ def create_matrix(columns,rows):
     return maze
 
 
-def spawn(maze):
+def create_start_and_finish(maze):
     row_num = 0
     col_num = 0
     row = maze[row_num]
@@ -47,22 +49,19 @@ def spawn(maze):
             col_end-=1
             num_end=maze[row_end,col_end]
             if num_end == 0:
+                data["row_end"]=row_end
+                data["col_end"]=col_end
                 return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
             else:
                 ...
     else:
+        data["row_end"]=row_end
+        data["col_end"]=col_end
         return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
     
 
 
 
-
-    
-
-
-
-
-    
 def movement(maze,move,column,row):
     
     number = None
@@ -80,12 +79,18 @@ def movement(maze,move,column,row):
         number = maze[row,column]
     else:
         return "Choose one of the options"
-    print(number)
-    if number == 0:
-        print(maze)
-        return f"Your new position:{number}\nRow:{row}\nColumn:{column}"
-    else: 
-        return "You cannot go there,there is a wall" 
+    row_end=data.get("row_end")
+    col_end=data.get("col_end")
+    print(row_end)
+    print(col_end)
+    if row_end==row and col_end==column:
+        return "You won!!!"
+    else:
+        if number == 0:
+            print(maze)
+            return f"Your new position:{number}\nRow:{row}\nColumn:{column}"
+        else: 
+            return "You cannot go there,there is a wall" 
 
 
 
@@ -95,7 +100,7 @@ columns = int(input("Enter number of columns"))
 matrix = create_matrix(rows,columns)
 maze = np.matrix(matrix)
 print(maze)
-spawn_position=spawn(maze)
+spawn_position=create_start_and_finish(maze)
 
 print(spawn_position)
 
