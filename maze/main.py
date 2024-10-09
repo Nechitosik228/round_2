@@ -28,38 +28,64 @@ def spawn(maze):
             col_num += 1
             number = maze[row_num,col_num]
             if number == 0:
-                return f"your starting position:{number}\nRow:{row_num+1}\nColumn:{col_num+1}"
+                break
             else:
                 ...
     else:
-        return f"Your starting position:{number}\nRow:{row_num+1}\nColumn:{col_num+1}"
+        ...
+    row_end=-1
+    col_end=-1
+    row = maze[row_end]
+    while 0 not in row:
+        row_end-=1
+        row = maze[row_end]
+        if 0 in row:
+            break
+    num_end=maze[row_end,col_end]
+    if num_end==1:
+        while num_end:
+            col_end-=1
+            num_end=maze[row_end,col_end]
+            if num_end == 0:
+                return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
+            else:
+                ...
+    else:
+        return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
     
+
+
+
+
     
+
+
+
+
     
 def movement(maze,move,column,row):
-    row_num = row
-    col_num = column
+    
     number = None
     if move == "down":
-        row_num+=1
-        number = maze[row_num,col_num]
+        row+=1
+        number = maze[row,column]
     elif move == "up":
-        row_num-=1
-        number = maze[row_num,col_num]
+        row-=1
+        number = maze[row,column]
     elif move == "left":
-        col_num-=1
-        number = maze[row_num,col_num]
+        column-=1
+        number = maze[row,column]
     elif move == "right":
-        col_num+=1
-        number = maze[row_num,col_num]
+        column+=1
+        number = maze[row,column]
     else:
         return "Choose one of the options"
     print(number)
-    if number == 1:
-        return "You cannot go there,there is a wall"
-    else: 
+    if number == 0:
         print(maze)
-        return f"your new position:{number}\nRow:{row_num+1}\nColumn:{col_num+1}" 
+        return f"Your new position:{number}\nRow:{row}\nColumn:{column}"
+    else: 
+        return "You cannot go there,there is a wall" 
 
 
 
@@ -70,10 +96,12 @@ matrix = create_matrix(rows,columns)
 maze = np.matrix(matrix)
 print(maze)
 spawn_position=spawn(maze)
+
 print(spawn_position)
+
 while True:
-    col=int(input("Enter you column"))
-    row=int(input("Enter you row"))
+    col=int(input("Enter your column"))
+    row=int(input("Enter your row"))
     move=input("Enter your move:\ndown\nup\nleft\nright")
     move_resp=movement(maze,row=row,column=col,move=move)
     print(move_resp)
