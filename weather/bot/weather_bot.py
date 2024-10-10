@@ -29,6 +29,7 @@ async def washing_clothes(message:Message,state:FSMContext):
     await state.set_state(Weather.temperature)
 
 
+
 @dp.message(Weather.temperature)
 async def temperature(message:Message):
     temperature = message.text
