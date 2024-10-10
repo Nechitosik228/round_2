@@ -16,6 +16,8 @@ def down(maze,column,row):
             return "down"
     else:
         return ""
+    
+
 #checks if player can go up  
 def up(maze,column,row):
     position=maze[row,column]
@@ -28,6 +30,8 @@ def up(maze,column,row):
             return "up"
     else:
         return "Enter right position"
+    
+
 #checks if player can go right   
 def right(maze,column,row):
     position=maze[row,column]
@@ -48,7 +52,8 @@ def right(maze,column,row):
             return "right"
     else:
         return ""
-    
+
+     
 #checks if player can go left
 def left(maze,column,row):
     position=maze[row,column]
@@ -61,6 +66,8 @@ def left(maze,column,row):
             return "left"
     else:
         return ""
+    
+
 #moves players position
 def movement(maze,move,column,row):
     number = None
