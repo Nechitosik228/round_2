@@ -39,7 +39,7 @@ while True:
             print(move_resp)
         else:
             ...
-    move=input(f"Enter your move:\n{move_up}\n{move_down}\n{move_right}\n{move_left}")
+    move=input(f"Enter your move:\n{move_up}\n{move_down}\n{move_right}\n{move_left}\n")
     move_resp=movement(maze,row=row,column=col,move=move)
     print(move_resp)
     if move_resp=="You won!!!":
