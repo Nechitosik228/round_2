@@ -2,6 +2,7 @@
 def down(maze,column,row):
     position=maze[row,column]
     len_maze=len(maze)-1
+    #checks if player is in the last row
     if row==len_maze:
         return ""
     else:
@@ -30,6 +31,12 @@ def up(maze,column,row):
 #checks if player can go right   
 def right(maze,column,row):
     position=maze[row,column]
+    len_row=len(maze[row])-1
+    #checks if player is in the last column
+    if column == len_row:
+        return""
+    else:
+        ...
     if position==0:
         column+=1
         number=maze[row,column]
