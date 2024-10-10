@@ -1,115 +1,49 @@
-import random
 import numpy as np
-
-data={}
-
-
-def create_matrix(columns,rows):
-    maze=[]
-    for row in range(rows):
-        numbers=[]
-        for column in range(columns):
-            numbers.append(random.randint(0,1))
-        maze.append(numbers)
-    return maze
+from func import up,down,right,left,movement,create_start_and_finish
 
 
-def create_start_and_finish(maze):
-    row_num = 0
-    col_num = 0
-    row = maze[row_num]
-    while 0 not in row:
-        row_num += 1
-        row = maze[row_num]
-        if 0 in row:
-            break
-    number=maze[row_num,col_num]
-    
-    if number==1:
-        while number:
-            col_num += 1
-            number = maze[row_num,col_num]
-            if number == 0:
-                break
-            else:
-                ...
-    else:
-        ...
-    row_end=-1
-    col_end=-1
-    row = maze[row_end]
-    while 0 not in row:
-        row_end-=1
-        row = maze[row_end]
-        if 0 in row:
-            break
-    num_end=maze[row_end,col_end]
-    if num_end==1:
-        while num_end:
-            col_end-=1
-            num_end=maze[row_end,col_end]
-            if num_end == 0:
-                data["row_end"]=row_end
-                data["col_end"]=col_end
-                return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
-            else:
-                ...
-    else:
-        data["row_end"]=row_end
-        data["col_end"]=col_end
-        return f"Start:\nRow:{row_num}\nColumn:{col_num}\nFinish:\nRow:{row_end}\nColumn:{col_end}"
-    
+#dict of matrix
+matrixs={1:"0 0 1 1;1 0 1 1;0 0 0 1;1 1 0 2",
+         2:"1 1 0 1 1 1;1 0 0 0 1 1;1 0 1 0 1 1;1 0 1 0 0 1;1 0 0 1 0 0;1 1 1 1 1 2",
+         3:"0 1 1 1 1 0 0 1;0 0 0 0 0 0 1 1;1 0 1 1 0 1 1 1;1 0 1 1 0 1 0 1;0 0 1 0 0 0 0 1;1 1 1 0 1 0 1 1;1 0 0 0 1 0 0 2;1 1 1 1 1 1 1 1",
+         4:"0 1 0 1 1 0 1 1 0 1;0 1 1 1 1 1 1 0 0 1;0 0 0 0 0 1 1 0 1 1;0 1 1 1 1 0 0 0 0 1;0 0 0 1 1 0 1 1 0 1;1 1 0 0 0 0 1 1 0 0;0 0 0 1 1 1 0 0 0 1;0 1 1 1 0 0 0 1 1 1;1 1 1 1 1 1 0 1 1 2;1 1 1 1 1 1 0 0 0 0"}
 
-
-
-def movement(maze,move,column,row):
-    
-    number = None
-    if move == "down":
-        row+=1
-        number = maze[row,column]
-    elif move == "up":
-        row-=1
-        number = maze[row,column]
-    elif move == "left":
-        column-=1
-        number = maze[row,column]
-    elif move == "right":
-        column+=1
-        number = maze[row,column]
-    else:
-        return "Choose one of the options"
-    row_end=data.get("row_end")
-    col_end=data.get("col_end")
-    print(row_end)
-    print(col_end)
-    if row_end==row and col_end==column:
-        return "You won!!!"
-    else:
-        if number == 0:
-            print(maze)
-            return f"Your new position:{number}\nRow:{row}\nColumn:{column}"
-        else: 
-            return "You cannot go there,there is a wall" 
-
-
-
-
-rows = int(input("Enter number of rows"))
-columns = int(input("Enter number of columns"))
-matrix = create_matrix(rows,columns)
-maze = np.matrix(matrix)
+print("Welcome to maze-game!")
+choice = int(input("Enter your choice:\n1->4x4\n2->6x6\n3->8x8\n4->10x10\n"))
+matrix=matrixs.get(choice)
+#transforms matrix
+maze=np.matrix(matrix)
 print(maze)
-spawn_position=create_start_and_finish(maze)
-
-print(spawn_position)
+print("1 is wall,0 is path and 2 is end")
+start_finish=create_start_and_finish(maze)
+print(start_finish)
 
 while True:
-    col=int(input("Enter your column"))
-    row=int(input("Enter your row"))
-    move=input("Enter your move:\ndown\nup\nleft\nright")
+    col=int(input("Enter your column\n"))
+    row=int(input("Enter your row\n"))
+    move_up=up(maze,column=col,row=row)
+    move_down=down(maze,column=col,row=row)
+    move_right=right(maze,column=col,row=row)
+    move_left=left(maze,column=col,row=row)
+    while move_up=="Enter right position":
+        print(move_up)
+        col=int(input("Enter your column"))
+        row=int(input("Enter your row"))
+        move_up=up(maze,column=col,row=row)
+        move_down=down(maze,column=col,row=row)
+        move_right=right(maze,column=col,row=row)
+        move_left=left(maze,column=col,row=row)
+        if move_up != "Enter right position":
+            move=input(f"Enter your move:\n{move_up}\n{move_down}\n{move_right}\n{move_left}")
+            move_resp=movement(maze,row=row,column=col,move=move)
+            print(move_resp)
+        else:
+            ...
+    move=input(f"Enter your move:\n{move_up}\n{move_down}\n{move_right}\n{move_left}")
     move_resp=movement(maze,row=row,column=col,move=move)
     print(move_resp)
+    if move_resp=="You won!!!":
+        break
 
 
     
